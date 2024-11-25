@@ -71,7 +71,7 @@ const ProductDetail = () => {
     new Map(
       data?.variants?.map((val) => [
         val.attributes?.find((attr) => attr.attribute_label === "Model")
-          ?.option_label || "",
+          ?.value || "",
         val,
       ])
     ).values()
@@ -83,7 +83,7 @@ const ProductDetail = () => {
         ?.filter(
           (val) =>
             val.attributes?.find((attr) => attr.attribute_label === "Model")
-              ?.option_label === selectedModel
+              ?.value === selectedModel
         )
         .map((val) => [
           val.attributes?.find((attr) => attr.attribute_label === "Warna")
@@ -99,11 +99,11 @@ const ProductDetail = () => {
         ?.filter(
           (val) =>
             val.attributes?.find((attr) => attr.attribute_label === "Model")
-              ?.option_label === selectedModel
+              ?.value === selectedModel
         )
         .map((val) => [
           val.attributes?.find((attr) => attr.attribute_label === "Kapasitas")
-            ?.option_label || "",
+            ?.value || "",
           val,
         ])
     ).values()
@@ -119,18 +119,18 @@ const ProductDetail = () => {
       setSelectedModel(
         data.variants[0].attributes?.find(
           (attr) => attr.attribute_label === "Model"
-        )?.option_label || ""
+        )?.value || ""
       );
       setVariantsPickedIndex({
         id: data.variants[0].variant_id,
         color:
-          uniqueColor[0]?.attributes?.find(
+          data.variants[0]?.attributes?.find(
             (attr) => attr.attribute_label === "Warna"
           )?.option_label || "",
         capacity:
-          uniqueCapacity[0]?.attributes?.find(
+          data.variants[0]?.attributes?.find(
             (attr) => attr.attribute_label === "Kapasitas"
-          )?.option_label || "",
+          )?.value || "",
         stock: data.variants[0].stock || 0,
         original_price: data.variants[0].price || 0,
         discount_price: data.variants[0].special_price || 0,
@@ -142,7 +142,9 @@ const ProductDetail = () => {
 
   console.log("pickedVariants", pickedVariantsIndex);
   // console.log("pickedModel", selectedModel);
-  console.log("uniqe", uniqueCapacity);
+  console.log("uniqeModel", uniqueVariants);
+  console.log("uniqeColor", uniqueColor);
+  console.log("uniqeCapacity", uniqueCapacity);
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -397,18 +399,16 @@ const ProductDetail = () => {
                       setSelectedModel(
                         val.attributes?.find(
                           (attr) => attr.attribute_label === "Model"
-                        )?.option_label || ""
+                        )?.value || ""
                       );
                       setVariantsPickedIndex({
                         id: val.variant_id,
-                        color:
-                          val.attributes?.find(
-                            (attr) => attr.attribute_label === "Warna"
-                          )?.option_label || "",
-                        capacity:
-                          val.attributes?.find(
-                            (attr) => attr.attribute_label === "Kapasitas"
-                          )?.option_label || "",
+                        color: val.attributes?.find(
+                          (attr) => attr.attribute_label === "Warna"
+                        )?.option_label,
+                        capacity: val.attributes?.find(
+                          (attr) => attr.attribute_label === "Kapasitas"
+                        )?.value,
                         stock: val.stock || 0,
                         original_price: val.price || 0,
                         discount_price: val.special_price || 0,
@@ -416,6 +416,12 @@ const ProductDetail = () => {
                         warranty: val.warranty || "",
                       });
                     }}
+                    disabled={
+                      selectedModel ===
+                      val.attributes?.find(
+                        (attr) => attr.attribute_label === "Model"
+                      )?.value
+                    }
                     style={{
                       color: "#001A41",
                       backgroundColor:
@@ -450,7 +456,7 @@ const ProductDetail = () => {
                       {
                         val.attributes?.find(
                           (attr) => attr.attribute_label === "Model"
-                        )?.option_label
+                        )?.value
                       }
                     </p>
                   </button>
@@ -485,7 +491,7 @@ const ProductDetail = () => {
                         capacity:
                           val.attributes?.find(
                             (attr) => attr.attribute_label === "Kapasitas"
-                          )?.option_label || "",
+                          )?.value || "",
                         stock: val.stock || 0,
                         original_price: val.price || 0,
                         discount_price: val.special_price || 0,
@@ -493,6 +499,12 @@ const ProductDetail = () => {
                         warranty: val.warranty || "",
                       });
                     }}
+                    disabled={
+                      pickedVariantsIndex?.color ===
+                      val.attributes?.find(
+                        (attr) => attr.attribute_label === "Warna"
+                      )?.option_label
+                    }
                     style={{
                       color: "#001A41",
                       backgroundColor:
@@ -562,7 +574,7 @@ const ProductDetail = () => {
                         capacity:
                           val.attributes?.find(
                             (attr) => attr.attribute_label === "Kapasitas"
-                          )?.option_label || "",
+                          )?.value || "",
                         stock: val.stock || 0,
                         original_price: val.price || 0,
                         discount_price: val.special_price || 0,
@@ -570,13 +582,19 @@ const ProductDetail = () => {
                         warranty: val.warranty || "",
                       });
                     }}
+                    disabled={
+                      pickedVariantsIndex?.capacity ===
+                      val.attributes?.find(
+                        (attr) => attr.attribute_label === "Kapasitas"
+                      )?.value
+                    }
                     style={{
                       color: "#001A41",
                       backgroundColor:
                         pickedVariantsIndex?.capacity ===
                           val.attributes?.find(
                             (attr) => attr.attribute_label === "Kapasitas"
-                          )?.option_label || ""
+                          )?.value || ""
                           ? "lightgray"
                           : "#EDF5FC",
                       width: "74px",
@@ -598,7 +616,7 @@ const ProductDetail = () => {
                       {
                         val.attributes?.find(
                           (attr) => attr.attribute_label === "Kapasitas"
-                        )?.option_label
+                        )?.value
                       }
                     </p>
                   </button>
