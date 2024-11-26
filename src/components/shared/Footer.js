@@ -20,11 +20,15 @@ const Footer = () => {
         style={{
           display: "flex",
           flexDirection: "column",
+          // alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
           gap: "15px",
           width: "300px",
           fontSize: "14px",
         }}
       >
+        {/* <br /> */}
         <svg
           width="160"
           height="55"
@@ -84,7 +88,7 @@ const Footer = () => {
             fill="#243B7F"
           />
         </svg>
-        <p
+        {/* <p
           style={{
             paddingTop: "15px",
             color: "gray",
@@ -109,7 +113,7 @@ const Footer = () => {
           }}
         >
            esim@grabpay.id
-        </p>
+        </p> */}
       </div>
       <div
         style={{

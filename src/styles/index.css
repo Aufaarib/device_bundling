@@ -83,11 +83,15 @@ code {
 * {
   margin: 0;
   color: #ffffff;
+  /* font-family: "Telkomsel Batik Sans"; */
+}
+
+.MuiTypography-root {
   font-family: "Telkomsel Batik Sans";
 }
 
 p {
-  font-family: "Poppins";
+  font-family: "Telkomsel Batik Sans";
 }
 
 button {

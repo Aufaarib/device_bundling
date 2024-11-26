@@ -1,13 +1,14 @@
 import axios from "axios";
 import { ErrorHandlings } from "./shared/ErrorHandlings";
 
-export const getAllProducts = (setData, setIsLoading) => {
+export const getAllProducts = (setData, setMeta, setIsLoading) => {
   axios
     .get(process.env.REACT_APP_API_KEY + `/product/all-product`, {
       headers: { authorization: `Bearer ${localStorage.getItem("TOKEN")}` },
     })
     .then((res) => {
       setData(res.data.body);
+      setMeta(res.data.meta);
       setIsLoading(false);
     })
     .catch((err) => {
@@ -23,6 +24,22 @@ export const getProductById = (setData, id, setIsLoading) => {
     })
     .then((res) => {
       setData(res.data.body);
+      setIsLoading(false);
+    })
+    .catch((err) => {
+      ErrorHandlings(err);
+      setIsLoading(false);
+    });
+};
+
+export const getProductByBrand = (setData, setMeta, brandId, setIsLoading) => {
+  axios
+    .get(process.env.REACT_APP_API_KEY + `/product/brand/${brandId}`, {
+      headers: { authorization: `Bearer ${localStorage.getItem("TOKEN")}` },
+    })
+    .then((res) => {
+      setData(res.data.body);
+      setMeta(res.data.meta);
       setIsLoading(false);
     })
     .catch((err) => {

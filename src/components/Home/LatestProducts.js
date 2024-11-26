@@ -12,7 +12,7 @@ const LatestProducts = () => {
   const [meta, setMeta] = useState([]);
 
   const fetchAllProducts = () => {
-    getAllProducts(setData, setIsLoading);
+    getAllProducts(setData, setMeta, setIsLoading);
   };
 
   useEffect(() => {
@@ -42,23 +42,19 @@ const LatestProducts = () => {
             <ProductCard
               product_id={val.product_id}
               product_name={val.name}
-              product_color={
-                val.variants[0]?.attributes?.find(
-                  (attr) => attr.attribute_label === "Warna"
-                )?.option_label
-              }
-              product_stock={val.variants[0]?.stock}
+              product_color={val.variants[0]?.detail[0].color}
+              product_stock={val.variants[0]?.detail[0].stock}
               normal_price={new Intl.NumberFormat("id-ID", {
                 style: "currency",
                 currency: "IDR",
                 minimumFractionDigits: 0,
-              }).format(val.variants[0]?.price)}
+              }).format(val.variants[0]?.detail[0].price)}
               special_price={new Intl.NumberFormat("id-ID", {
                 style: "currency",
                 currency: "IDR",
                 minimumFractionDigits: 0,
-              }).format(val.variants[0]?.special_price)}
-              discount={val.variants[0]?.discount}
+              }).format(val.variants[0]?.detail[0].special_price)}
+              discount={val.variants[0]?.detail[0].discount}
             />
           </div>
         ))}

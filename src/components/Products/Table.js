@@ -8,8 +8,27 @@ import {
 } from "@tabler/icons-react";
 import ProductCard from "../shared/ProductCard";
 import ReactPaginate from "react-paginate";
+import { useEffect, useState } from "react";
+import { getAllProducts, getProductByBrand } from "../APIs/ProductsAPI";
+import { useAppContext } from "../shared/Context";
+import BreadCrumbs from "../shared/BreadCrumbs";
+import { Typography } from "@mui/material";
+import BreadCrumbsButton from "../shared/Buttons/BreadCrumbs";
 
 const Table = () => {
+  const params = new URLSearchParams(window.location.search);
+  const [data, setData] = useState([]);
+  const [meta, setMeta] = useState([]);
+  const { isLoading, setIsLoading } = useAppContext();
+
+  useEffect(() => {
+    if (params.get("brand")) {
+      getProductByBrand(setData, setMeta, params.get("brand"), setIsLoading);
+    } else {
+      getAllProducts(setData, setMeta, setIsLoading);
+    }
+  }, []);
+
   const styles = `
         .pagination {
             display: flex;
@@ -158,15 +177,27 @@ const Table = () => {
           //   overflowY: "auto", // Scrollable for extra content
         }}
       >
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        {data.map((val, index) => (
+          <div key={index}>
+            <ProductCard
+              product_id={val.product_id}
+              product_name={val.name}
+              product_color={val.variants[0]?.detail[0].color}
+              product_stock={val.variants[0]?.detail[0].stock}
+              normal_price={new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                minimumFractionDigits: 0,
+              }).format(val.variants[0]?.detail[0].price)}
+              special_price={new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                minimumFractionDigits: 0,
+              }).format(val.variants[0]?.detail[0].special_price)}
+              discount={val.variants[0]?.detail[0].discount}
+            />
+          </div>
+        ))}
       </div>
       <div style={{ padding: "20px" }}>
         <style>{styles}</style>
@@ -192,10 +223,10 @@ const Table = () => {
             />
           }
           breakLabel={<a>...</a>}
-          pageRangeDisplayed={1}
+          pageRangeDisplayed={meta.per_page}
           marginPagesDisplayed={1}
           forcePage={0}
-          pageCount={10}
+          pageCount={meta.page_count}
           // onPageChange={handlePageClick}
           containerClassName={"pagination"}
           activeClassName={"active"}

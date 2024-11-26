@@ -1,19 +1,14 @@
-import {
-  IconCircle,
-  IconCircleFilled,
-  IconDots,
-  IconX,
-} from "@tabler/icons-react";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import { IconCircleFilled, IconX } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 import iphone from "../../styles/assets/iphone.png";
-import SVG from "./Icon";
-import ProductFooter from "../shared/ProductFooter";
-import { Box, Modal, Typography } from "@mui/material";
+import { getProductById } from "../APIs/ProductsAPI";
+import BreadCrumbs from "../shared/BreadCrumbs";
+import BreadCrumbsButton from "../shared/Buttons/BreadCrumbs";
+import { useAppContext } from "../shared/Context";
 import DottedPoints from "../shared/Pharagraphs/DottedPoints";
 import Underlined from "../shared/Pharagraphs/Underlined";
-import { useEffect, useState } from "react";
-import { getProductById } from "../APIs/ProductsAPI";
-import { useAppContext } from "../shared/Context";
-import { useParams } from "react-router-dom";
+import ProductFooter from "../shared/ProductFooter";
 
 const ProductDetail = () => {
   const params = new URLSearchParams(window.location.search);
@@ -67,70 +62,63 @@ const ProductDetail = () => {
     );
   };
 
-  const uniqueVariants = Array.from(
-    new Map(
-      data?.variants?.map((val) => [
-        val.attributes?.find((attr) => attr.attribute_label === "Model")
-          ?.value || "",
-        val,
-      ])
-    ).values()
-  );
+  // const uniqueVariants = Array.from(
+  //   new Map(
+  //     data?.variants?.map((val) => [
+  //       val.attributes?.find((attr) => attr.attribute_label === "Model")
+  //         ?.value || "",
+  //       val,
+  //     ])
+  //   ).values()
+  // );
 
-  const uniqueColor = Array.from(
-    new Map(
-      data?.variants
-        ?.filter(
-          (val) =>
-            val.attributes?.find((attr) => attr.attribute_label === "Model")
-              ?.value === selectedModel
-        )
-        .map((val) => [
-          val.attributes?.find((attr) => attr.attribute_label === "Warna")
-            ?.option_label || "",
-          val,
-        ])
-    ).values()
-  );
+  // const uniqueColor = Array.from(
+  //   new Map(
+  //     data?.variants
+  //       ?.filter(
+  //         (val) =>
+  //           val.attributes?.find((attr) => attr.attribute_label === "Model")
+  //             ?.value === selectedModel
+  //       )
+  //       .map((val) => [
+  //         val.attributes?.find((attr) => attr.attribute_label === "Warna")
+  //           ?.option_label || "",
+  //         val,
+  //       ])
+  //   ).values()
+  // );
 
-  const uniqueCapacity = Array.from(
-    new Map(
-      data?.variants
-        ?.filter(
-          (val) =>
-            val.attributes?.find((attr) => attr.attribute_label === "Model")
-              ?.value === selectedModel
-        )
-        .map((val) => [
-          val.attributes?.find((attr) => attr.attribute_label === "Kapasitas")
-            ?.value || "",
-          val,
-        ])
-    ).values()
-  );
+  // const uniqueCapacity = Array.from(
+  //   new Map(
+  //     data?.variants
+  //       ?.filter(
+  //         (val) =>
+  //           val.attributes?.find((attr) => attr.attribute_label === "Model")
+  //             ?.value === selectedModel
+  //       )
+  //       .map((val) => [
+  //         val.attributes?.find((attr) => attr.attribute_label === "Kapasitas")
+  //           ?.value || "",
+  //         val,
+  //       ])
+  //   ).values()
+  // );
 
   useEffect(() => {
     getProductById(setData, params.get("id"), setIsLoading);
   }, []);
+  // useEffect(() => {
+  //   getProductById(setData, params.get("id"), setIsLoading);
+  // }, []);
 
   useEffect(() => {
     // console.log("Data:", data);
     if (data?.variants?.length > 0) {
-      setSelectedModel(
-        data.variants[0].attributes?.find(
-          (attr) => attr.attribute_label === "Model"
-        )?.value || ""
-      );
+      setSelectedModel(data?.variants[0]?.model);
       setVariantsPickedIndex({
         id: data.variants[0].variant_id,
-        color:
-          data.variants[0]?.attributes?.find(
-            (attr) => attr.attribute_label === "Warna"
-          )?.option_label || "",
-        capacity:
-          data.variants[0]?.attributes?.find(
-            (attr) => attr.attribute_label === "Kapasitas"
-          )?.value || "",
+        color: data.variants[0]?.color || "",
+        capacity: data.variants[0]?.capacity || "",
         stock: data.variants[0].stock || 0,
         original_price: data.variants[0].price || 0,
         discount_price: data.variants[0].special_price || 0,
@@ -141,13 +129,35 @@ const ProductDetail = () => {
   }, [data]);
 
   console.log("pickedVariants", pickedVariantsIndex);
-  // console.log("pickedModel", selectedModel);
-  console.log("uniqeModel", uniqueVariants);
-  console.log("uniqeColor", uniqueColor);
-  console.log("uniqeCapacity", uniqueCapacity);
+  console.log("pickedModel", selectedModel);
+  // console.log("uniqeModel", uniqueVariants);
+  // console.log("uniqeColor", uniqueColor);
+  // console.log("uniqeCapacity", uniqueCapacity);
+
+  const breadcrumbs = [
+    <BreadCrumbsButton title={"Home"} href={"/"} />,
+    <Button
+      key="2"
+      sx={{
+        p: 0,
+        textTransform: "none",
+        fontSize: "16px",
+        fontWeight: 400,
+        color: "#00000099",
+        ":hover": { color: "blue" },
+      }}
+      href="/products"
+    >
+      Product
+    </Button>,
+    <Typography fontSize="16px" key="3" color="#00000099" fontWeight={600}>
+      {data.name}
+    </Typography>,
+  ];
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
+      <BreadCrumbs breadCrumbs={breadcrumbs} />
       <div
         style={{
           display: "flex",
@@ -223,8 +233,8 @@ const ProductDetail = () => {
                 width: "50%",
                 display: "flex",
                 flexDirection: "column",
-                gap: "15px",
-                justifyContent: "space-between",
+                gap: "10px",
+                // justifyContent: "space-between",
               }}
             >
               <div
@@ -243,7 +253,7 @@ const ProductDetail = () => {
                     backgroundColor: "#FDA22B",
                     maxWidth: "152px",
                     padding: "5px 9px",
-                    fontSize: "12px",
+                    fontSize: "10px",
                     fontWeight: 400,
                   }}
                 >
@@ -260,9 +270,25 @@ const ProductDetail = () => {
                   Terjual 0
                 </p>
               </div>
-              <h2 style={{ color: "black", fontWeight: 700, fontSize: "18px" }}>
-                {selectedModel}, {pickedVariantsIndex?.color}
-              </h2>
+              <div
+                style={{
+                  paddingTop: "10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "5px",
+                }}
+              >
+                <h2
+                  style={{ color: "black", fontWeight: 700, fontSize: "18px" }}
+                >
+                  {selectedModel}, {pickedVariantsIndex?.color}
+                </h2>
+                <h2
+                  style={{ color: "black", fontWeight: 400, fontSize: "14px" }}
+                >
+                  {pickedVariantsIndex?.capacity + " GB"}
+                </h2>
+              </div>
               <div>
                 <p style={{ color: "#FF0025", fontSize: "32px" }}>
                   {new Intl.NumberFormat("id-ID", {
@@ -333,9 +359,19 @@ const ProductDetail = () => {
               }}
             >
               {/* <SVG /> */}
-              <h2 style={{ color: "black", fontWeight: 500 }}>
-                {data?.brand?.name}
-              </h2>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <img
+                  style={{ margin: 0, top: 0 }}
+                  src={
+                    process.env.REACT_APP_STORAGE_KEY + data?.brand?.brand_logo
+                  }
+                  alt="err"
+                  width="90px"
+                />
+                <h2 style={{ color: "black", fontWeight: 500 }}>
+                  {data?.brand?.name}
+                </h2>
+              </div>
               <br />
               <hr
                 style={{
@@ -392,75 +428,60 @@ const ProductDetail = () => {
                   gap: "15px",
                 }}
               >
-                {uniqueVariants.map((val, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setSelectedModel(
-                        val.attributes?.find(
-                          (attr) => attr.attribute_label === "Model"
-                        )?.value || ""
-                      );
-                      setVariantsPickedIndex({
-                        id: val.variant_id,
-                        color: val.attributes?.find(
-                          (attr) => attr.attribute_label === "Warna"
-                        )?.option_label,
-                        capacity: val.attributes?.find(
-                          (attr) => attr.attribute_label === "Kapasitas"
-                        )?.value,
-                        stock: val.stock || 0,
-                        original_price: val.price || 0,
-                        discount_price: val.special_price || 0,
-                        discount: val.discount || 0,
-                        warranty: val.warranty || "",
-                      });
-                    }}
-                    disabled={
-                      selectedModel ===
-                      val.attributes?.find(
-                        (attr) => attr.attribute_label === "Model"
-                      )?.value
-                    }
-                    style={{
-                      color: "#001A41",
-                      backgroundColor:
-                        selectedModel ===
-                          val.attributes?.find(
-                            (attr) => attr.attribute_label === "Model"
-                          )?.option_label || ""
-                          ? "lightgray"
-                          : "#EDF5FC",
-                      width: "140px",
-                      padding: "15px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "15px",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <img
-                      style={{ margin: 0, top: 0 }}
-                      src={iphone}
-                      alt="err"
-                      width="28px"
-                    />
-                    <p
+                {data?.variants
+                  ?.filter(
+                    (val, index, self) =>
+                      index === self.findIndex((t) => t.model === val.model)
+                  )
+                  .map((val, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setSelectedModel(val.model);
+                        setVariantsPickedIndex({
+                          id: val.variant_id,
+                          color: val.color,
+                          capacity: val.capacity,
+                          stock: val.stock || 0,
+                          original_price: val.price || 0,
+                          discount_price: val.special_price || 0,
+                          discount: val.discount || 0,
+                          warranty: val.warranty || "",
+                        });
+                      }}
+                      disabled={selectedModel === val.model}
                       style={{
                         color: "#001A41",
-                        fontWeight: 700,
-                        fontSize: "12px",
+                        backgroundColor:
+                          selectedModel === val.model || ""
+                            ? "lightgray"
+                            : "#EDF5FC",
+                        width: "140px",
+                        padding: "15px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "15px",
+                        borderRadius: "8px",
                       }}
                     >
-                      {
-                        val.attributes?.find(
-                          (attr) => attr.attribute_label === "Model"
-                        )?.value
-                      }
-                    </p>
-                  </button>
-                ))}
+                      <img
+                        style={{ margin: 0, top: 0 }}
+                        src={iphone}
+                        alt="err"
+                        width="28px"
+                      />
+                      <p
+                        style={{
+                          color: "#001A41",
+                          fontWeight: 700,
+                          fontSize: "12px",
+                        }}
+                      >
+                        {val.model}
+                      </p>
+                    </button>
+                  ))}
               </div>
             </div>
             <div
@@ -478,72 +499,59 @@ const ProductDetail = () => {
                   gap: "15px",
                 }}
               >
-                {uniqueColor.map((val, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setVariantsPickedIndex({
-                        id: val.variant_id,
-                        color:
-                          val.attributes?.find(
-                            (attr) => attr.attribute_label === "Warna"
-                          )?.option_label || "",
-                        capacity:
-                          val.attributes?.find(
-                            (attr) => attr.attribute_label === "Kapasitas"
-                          )?.value || "",
-                        stock: val.stock || 0,
-                        original_price: val.price || 0,
-                        discount_price: val.special_price || 0,
-                        discount: val.discount || 0,
-                        warranty: val.warranty || "",
-                      });
-                    }}
-                    disabled={
-                      pickedVariantsIndex?.color ===
-                      val.attributes?.find(
-                        (attr) => attr.attribute_label === "Warna"
-                      )?.option_label
-                    }
-                    style={{
-                      color: "#001A41",
-                      backgroundColor:
-                        pickedVariantsIndex?.color ===
-                          val.attributes?.find(
-                            (attr) => attr.attribute_label === "Warna"
-                          )?.option_label || ""
-                          ? "lightgray"
-                          : "#EDF5FC",
-                      width: "140px",
-                      padding: "15px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "15px",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <img
-                      style={{ margin: 0, top: 0 }}
-                      src={iphone}
-                      alt="err"
-                      width="28px"
-                    />
-                    <p
+                {data?.variants
+                  // ?.filter(
+                  //   (val, index, self) =>
+                  //     // index === self.findIndex((t) => t.color === val.color)
+                  // )
+                  ?.map((val, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setVariantsPickedIndex({
+                          id: val.variant_id,
+                          color: val.color,
+                          capacity: val.capacity,
+                          stock: val.stock || 0,
+                          original_price: val.price || 0,
+                          discount_price: val.special_price || 0,
+                          discount: val.discount || 0,
+                          warranty: val.warranty || "",
+                        });
+                      }}
+                      disabled={pickedVariantsIndex?.color === val.color}
                       style={{
                         color: "#001A41",
-                        fontWeight: 700,
-                        fontSize: "12px",
+                        backgroundColor:
+                          pickedVariantsIndex?.color === val.color
+                            ? "lightgray"
+                            : "#EDF5FC",
+                        width: "140px",
+                        padding: "15px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "15px",
+                        borderRadius: "8px",
                       }}
                     >
-                      {
-                        val.attributes?.find(
-                          (attr) => attr.attribute_label === "Warna"
-                        )?.option_label
-                      }
-                    </p>
-                  </button>
-                ))}
+                      <img
+                        style={{ margin: 0, top: 0 }}
+                        src={iphone}
+                        alt="err"
+                        width="28px"
+                      />
+                      <p
+                        style={{
+                          color: "#001A41",
+                          fontWeight: 700,
+                          fontSize: "12px",
+                        }}
+                      >
+                        {val.color}
+                      </p>
+                    </button>
+                  ))}
               </div>
             </div>
             <div
@@ -561,66 +569,54 @@ const ProductDetail = () => {
                   gap: "15px",
                 }}
               >
-                {uniqueCapacity.map((val, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setVariantsPickedIndex({
-                        id: val.variant_id,
-                        color:
-                          val.attributes?.find(
-                            (attr) => attr.attribute_label === "Warna"
-                          )?.option_label || "",
-                        capacity:
-                          val.attributes?.find(
-                            (attr) => attr.attribute_label === "Kapasitas"
-                          )?.value || "",
-                        stock: val.stock || 0,
-                        original_price: val.price || 0,
-                        discount_price: val.special_price || 0,
-                        discount: val.discount || 0,
-                        warranty: val.warranty || "",
-                      });
-                    }}
-                    disabled={
-                      pickedVariantsIndex?.capacity ===
-                      val.attributes?.find(
-                        (attr) => attr.attribute_label === "Kapasitas"
-                      )?.value
-                    }
-                    style={{
-                      color: "#001A41",
-                      backgroundColor:
-                        pickedVariantsIndex?.capacity ===
-                          val.attributes?.find(
-                            (attr) => attr.attribute_label === "Kapasitas"
-                          )?.value || ""
-                          ? "lightgray"
-                          : "#EDF5FC",
-                      width: "74px",
-                      padding: "15px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "15px",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <p
+                {data?.variants
+                  ?.filter(
+                    (val, index, self) =>
+                      index ===
+                      self.findIndex((t) => t.capacity === val.capacity)
+                  )
+                  .map((val, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setVariantsPickedIndex({
+                          id: val.variant_id,
+                          color: val.color,
+                          capacity: val.capacity,
+                          stock: val.stock || 0,
+                          original_price: val.price || 0,
+                          discount_price: val.special_price || 0,
+                          discount: val.discount || 0,
+                          warranty: val.warranty || "",
+                        });
+                      }}
+                      disabled={pickedVariantsIndex?.capacity === val.capacity}
                       style={{
                         color: "#001A41",
-                        fontWeight: 500,
-                        fontSize: "12px",
+                        backgroundColor:
+                          pickedVariantsIndex?.capacity === val.capacity
+                            ? "lightgray"
+                            : "#EDF5FC",
+                        width: "88px",
+                        padding: "15px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "15px",
+                        borderRadius: "8px",
                       }}
                     >
-                      {
-                        val.attributes?.find(
-                          (attr) => attr.attribute_label === "Kapasitas"
-                        )?.value
-                      }
-                    </p>
-                  </button>
-                ))}
+                      <p
+                        style={{
+                          color: "#001A41",
+                          fontWeight: 500,
+                          fontSize: "12px",
+                        }}
+                      >
+                        {val.capacity + " GB"}
+                      </p>
+                    </button>
+                  ))}
               </div>
             </div>
           </div>
@@ -941,10 +937,10 @@ const ProductDetail = () => {
                   }}
                 >
                   <p style={{ color: "black", fontSize: "20px" }}>
-                    {data?.bundling?.quota_amount}
+                    {data?.bundling?.quota_amount + " GB"}
                   </p>
                   <p style={{ color: "black", fontSize: "14px" }}>
-                    {data?.bundling?.active_period}
+                    {data?.bundling?.active_period + " Bulan"}
                   </p>
                 </div>
                 <div
@@ -959,7 +955,7 @@ const ProductDetail = () => {
                     {data?.bundling?.name} ({data?.bundling?.tenor})
                   </p>
                   <p style={{ fontSize: "18px", fontWeight: 400 }}>
-                    {data?.bundling?.quota_price}
+                    {data?.bundling?.price_amount}
                   </p>
                   <div
                     style={{
@@ -1024,76 +1020,132 @@ const ProductDetail = () => {
             sx={{
               py: "20px",
               pt: "30px",
-              // bgcolor: "red",
+              bgcolor: "#EDF5FC",
+              borderRadius: "0 0 100px",
               width: "100%",
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
               justifyContent: "space-between",
             }}
           >
-            <Typography
-              color="black"
-              py="5px"
-              paddingLeft="40px"
-              paddingRight="20px"
-              borderRadius="0 20px 20px 0px"
-              bgcolor="#FDA22B"
-              fontWeight={600}
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
             >
-              {data?.bundling?.active_period}
-            </Typography>
-            <IconX
-              onClick={() => setIsOpenModal(false)}
-              color="black"
-              size={32}
-              style={{ paddingRight: "30px", cursor: "pointer" }}
-            />
+              <Typography
+                color="black"
+                py="5px"
+                paddingLeft="40px"
+                paddingRight="20px"
+                borderRadius="0 20px 20px 0px"
+                bgcolor="#FDA22B"
+                fontWeight={600}
+              >
+                {data?.bundling?.active_period + " Bulan"}
+              </Typography>
+              <IconX
+                onClick={() => setIsOpenModal(false)}
+                color="black"
+                size={32}
+                style={{ paddingRight: "30px", cursor: "pointer" }}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                px: "40px",
+                pt: "35px",
+                gap: "8px",
+              }}
+            >
+              <Typography color="black" fontWeight={700}>
+                {data?.bundling?.name}
+              </Typography>
+              <Typography color="black" fontWeight={400}>
+                {data?.bundling?.description}
+              </Typography>
+            </Box>
           </Box>
           <Box
             sx={{
               display: "flex",
-              justifyContent: "start",
-              alignItems: "start",
-              paddingX: "40px",
+              justifyContent: "center",
+              alignItems: "center",
+              // paddingX: "40px",
               paddingBottom: "40px",
               flexDirection: "column",
               gap: "10px",
             }}
           >
-            <Typography color="black" fontWeight={700}>
-              {data?.bundling?.name}
-            </Typography>
-            <Typography color="black" fontWeight={400}>
-              {data?.bundling?.description}
-              {/* Shop Halo+ Device Bold 100K - 6 Bulan merupakan Paket Bundling
-              Halo yang dibeli secara kontrak di depan sesuai periode kontrak
-              yang dipilih, dengan benefit: */}
-            </Typography>
-            {/* <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-              }}
-            >
-              <DottedPoints />
-              <DottedPoints />
-            </Box> */}
-            <Typography color="black" fontWeight={400}>
-              Paket akan diperpanjang otomatis sesuai periode tagihan (Billing
-              Cycle) dan tidak akan ditagihkan selama periode kontrak. Pelanggan
-              dapat melakukan penggantian paket utama setelah periode kontrak
-              selesai.
-            </Typography>
             <Box
               sx={{
-                pt: "40px",
                 display: "flex",
-                gap: "40px",
-                flexDirection: "column",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                // bgcolor: "red",
+                width: "100%",
               }}
             >
-              <Underlined label={`Nomor`} value={data?.bundling?.msisdn} />
+              <Box
+                sx={{
+                  pt: "40px",
+                  display: "flex",
+                  gap: "40px",
+                  flexDirection: "column",
+                }}
+              >
+                <Box
+                  sx={{
+                    borderBottom: "1px solid gray",
+                    pb: "10px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                  }}
+                >
+                  <Typography color="black" fontSize={14}>
+                    Nomor Telkomsel*
+                  </Typography>
+                  <select
+                    type="text"
+                    title="NIK"
+                    style={{
+                      border: "1px solid grey",
+                      padding: "10px",
+                      borderRadius: "10px",
+                      color: "black",
+                    }}
+                    // onChange={(e) => setEmergencyCall(e.target.value)}
+                  />
+                  <Typography color="#243B7F" fontSize={14}>
+                    Cari Nomor Kombinasi Angka Favoritmu
+                  </Typography>
+                </Box>
+                <Underlined
+                  label={`Telepon Ke Semua Operator`}
+                  value={data?.bundling?.msisdn}
+                />
+              </Box>
+              <Box
+                sx={{
+                  pt: "40px",
+                  display: "flex",
+                  gap: "40px",
+                  flexDirection: "column",
+                }}
+              >
+                <Underlined label={`Roaming`} value={data?.bundling?.msisdn} />
+                <Underlined label={`Internet`} value={data?.bundling?.msisdn} />
+                <Underlined
+                  label={`SMS Ke Semua Operator`}
+                  value={data?.bundling?.msisdn}
+                />
+              </Box>
             </Box>
             <Box
               sx={{

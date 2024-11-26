@@ -197,6 +197,7 @@ const Hero = () => {
           >
             {data.map((item, index) => (
               <div
+                onClick={() => navigate(`/products?brand=${item.id}`)}
                 key={index}
                 style={{
                   cursor: "pointer",

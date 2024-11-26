@@ -8,15 +8,15 @@ const Underlined = ({ label, value }) => {
         flexDirection: "row",
         alignItems: "end",
         justifyContent: "space-between",
-        borderBottom: "1.5px solid black",
+        borderBottom: "1px solid gray",
         pb: "10px",
-        width: "270px",
+        width: "340px",
       }}
     >
-      <Typography color="black" fontSize={16}>
+      <Typography color="black" fontSize={14}>
         {label}
       </Typography>
-      <Typography color="black" fontSize={16}>
+      <Typography color="black" fontSize={14}>
         {value}
       </Typography>
     </Box>

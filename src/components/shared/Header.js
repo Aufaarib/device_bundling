@@ -10,7 +10,7 @@ const Header = () => {
   const [data, setData] = useState("");
   const token = localStorage.getItem("TOKEN");
 
-  console.log(data);
+  // console.log(data);
 
   useEffect(() => {
     if (token) {
