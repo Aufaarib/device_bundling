@@ -62,68 +62,23 @@ const ProductDetail = () => {
     );
   };
 
-  // const uniqueVariants = Array.from(
-  //   new Map(
-  //     data?.variants?.map((val) => [
-  //       val.attributes?.find((attr) => attr.attribute_label === "Model")
-  //         ?.value || "",
-  //       val,
-  //     ])
-  //   ).values()
-  // );
-
-  // const uniqueColor = Array.from(
-  //   new Map(
-  //     data?.variants
-  //       ?.filter(
-  //         (val) =>
-  //           val.attributes?.find((attr) => attr.attribute_label === "Model")
-  //             ?.value === selectedModel
-  //       )
-  //       .map((val) => [
-  //         val.attributes?.find((attr) => attr.attribute_label === "Warna")
-  //           ?.option_label || "",
-  //         val,
-  //       ])
-  //   ).values()
-  // );
-
-  // const uniqueCapacity = Array.from(
-  //   new Map(
-  //     data?.variants
-  //       ?.filter(
-  //         (val) =>
-  //           val.attributes?.find((attr) => attr.attribute_label === "Model")
-  //             ?.value === selectedModel
-  //       )
-  //       .map((val) => [
-  //         val.attributes?.find((attr) => attr.attribute_label === "Kapasitas")
-  //           ?.value || "",
-  //         val,
-  //       ])
-  //   ).values()
-  // );
-
   useEffect(() => {
     getProductById(setData, params.get("id"), setIsLoading);
   }, []);
-  // useEffect(() => {
-  //   getProductById(setData, params.get("id"), setIsLoading);
-  // }, []);
 
   useEffect(() => {
     // console.log("Data:", data);
     if (data?.variants?.length > 0) {
       setSelectedModel(data?.variants[0]?.model);
       setVariantsPickedIndex({
-        id: data.variants[0].variant_id,
-        color: data.variants[0]?.color || "",
+        id: 1,
         capacity: data.variants[0]?.capacity || "",
-        stock: data.variants[0].stock || 0,
-        original_price: data.variants[0].price || 0,
-        discount_price: data.variants[0].special_price || 0,
-        discount: data.variants[0].discount || 0,
-        warranty: data.variants[0].warranty || "",
+        color: data.variants[0]?.detail[0]?.color || "",
+        stock: data.variants[0]?.detail[0]?.stock || 0,
+        original_price: data.variants[0]?.detail[0]?.price || 0,
+        discount_price: data.variants[0]?.detail[0]?.special_price || 0,
+        discount: data.variants[0]?.detail[0]?.discount || 0,
+        warranty: data.variants[0]?.detail[0]?.warranty || "",
       });
     }
   }, [data]);
@@ -433,29 +388,27 @@ const ProductDetail = () => {
                     (val, index, self) =>
                       index === self.findIndex((t) => t.model === val.model)
                   )
-                  .map((val, i) => (
+                  ?.map((val, i) => (
                     <button
                       key={i}
                       onClick={() => {
                         setSelectedModel(val.model);
                         setVariantsPickedIndex({
-                          id: val.variant_id,
-                          color: val.color,
+                          id: i,
+                          color: val.detail[0].color,
                           capacity: val.capacity,
-                          stock: val.stock || 0,
-                          original_price: val.price || 0,
-                          discount_price: val.special_price || 0,
-                          discount: val.discount || 0,
-                          warranty: val.warranty || "",
+                          stock: val.detail[0].stock,
+                          original_price: val.detail[0].price,
+                          discount_price: val.detail[0].special_price,
+                          discount: val.detail[0].discount,
+                          warranty: val.detail[0].warranty,
                         });
                       }}
                       disabled={selectedModel === val.model}
                       style={{
                         color: "#001A41",
                         backgroundColor:
-                          selectedModel === val.model || ""
-                            ? "lightgray"
-                            : "#EDF5FC",
+                          selectedModel === val.model ? "lightgray" : "#EDF5FC",
                         width: "140px",
                         padding: "15px",
                         display: "flex",
@@ -500,23 +453,24 @@ const ProductDetail = () => {
                 }}
               >
                 {data?.variants
-                  // ?.filter(
-                  //   (val, index, self) =>
-                  //     // index === self.findIndex((t) => t.color === val.color)
-                  // )
-                  ?.map((val, i) => (
+                  ?.find((val) => val.model === selectedModel)
+                  ?.detail?.filter(
+                    (val, index, self) =>
+                      index === self.findIndex((t) => t.color === val.color)
+                  )
+                  .map((val, i) => (
                     <button
                       key={i}
                       onClick={() => {
                         setVariantsPickedIndex({
-                          id: val.variant_id,
+                          id: i,
                           color: val.color,
-                          capacity: val.capacity,
-                          stock: val.stock || 0,
-                          original_price: val.price || 0,
-                          discount_price: val.special_price || 0,
-                          discount: val.discount || 0,
-                          warranty: val.warranty || "",
+                          capacity: pickedVariantsIndex.capacity,
+                          stock: val.stock,
+                          original_price: val.price,
+                          discount_price: val.special_price,
+                          discount: val.discount,
+                          warranty: val.warranty,
                         });
                       }}
                       disabled={pickedVariantsIndex?.color === val.color}
@@ -570,24 +524,21 @@ const ProductDetail = () => {
                 }}
               >
                 {data?.variants
-                  ?.filter(
-                    (val, index, self) =>
-                      index ===
-                      self.findIndex((t) => t.capacity === val.capacity)
-                  )
-                  .map((val, i) => (
+                  // ?.find((val) => val.model === selectedModel)
+                  ?.filter((val, index) => val.model === selectedModel)
+                  ?.map((val, i) => (
                     <button
                       key={i}
                       onClick={() => {
                         setVariantsPickedIndex({
-                          id: val.variant_id,
-                          color: val.color,
+                          id: i,
+                          color: pickedVariantsIndex.color,
                           capacity: val.capacity,
-                          stock: val.stock || 0,
-                          original_price: val.price || 0,
-                          discount_price: val.special_price || 0,
-                          discount: val.discount || 0,
-                          warranty: val.warranty || "",
+                          stock: pickedVariantsIndex.stock,
+                          original_price: pickedVariantsIndex.original_price,
+                          discount_price: pickedVariantsIndex.discount_price,
+                          discount: pickedVariantsIndex.discount,
+                          warranty: pickedVariantsIndex.warranty,
                         });
                       }}
                       disabled={pickedVariantsIndex?.capacity === val.capacity}

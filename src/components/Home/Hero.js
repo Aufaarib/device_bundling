@@ -151,6 +151,7 @@ const Hero = () => {
           padding: "38px 110px",
           justifyContent: "center",
           gap: "30px",
+          // backgroundColor: "red",
         }}
       >
         <h2 style={{ color: "black" }}>Pilihan Smartphone</h2>
@@ -158,8 +159,8 @@ const Hero = () => {
           style={{
             display: "flex",
             gap: "20px",
-            overflow: "auto",
-            height: "158px",
+            // overflow: "auto",
+            // height: "158px",
           }}
         >
           <div
@@ -195,33 +196,38 @@ const Hero = () => {
             // ref={scrollContainerRef}
             onScroll={handleScroll}
           >
-            {data.map((item, index) => (
-              <div
-                onClick={() => navigate(`/products?brand=${item.id}`)}
-                key={index}
-                style={{
-                  cursor: "pointer",
-                  display: "flex",
-                  padding: "10px 30px",
-                  border: "2px solid lightgrey",
-                  minWidth: "100px",
-                  height: "58px",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "center",
-                  borderRadius: "16px",
-                }}
-              >
-                <p
+            {data
+              ?.filter(
+                (val, index, self) =>
+                  index === self.findIndex((t) => t.name === val.name)
+              )
+              .map((item, index) => (
+                <div
+                  onClick={() => navigate(`/products?brand=${item.id}`)}
+                  key={index}
                   style={{
-                    color: "black",
-                    fontWeight: "semibold",
+                    cursor: "pointer",
+                    display: "flex",
+                    padding: "10px 30px",
+                    border: "2px solid lightgrey",
+                    minWidth: "100px",
+                    height: "58px",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "center",
+                    borderRadius: "16px",
                   }}
                 >
-                  {item.name}
-                </p>
-              </div>
-            ))}
+                  <p
+                    style={{
+                      color: "black",
+                      fontWeight: "semibold",
+                    }}
+                  >
+                    {item.name}
+                  </p>
+                </div>
+              ))}
           </div>
           {isLoading && <p>Loading...</p>}
           {!hasMore && <p>No more data to load</p>}
