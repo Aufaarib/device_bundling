@@ -1,9 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import ProductCard from "../shared/ProductCard";
-import { useAppContext } from "../shared/Context";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getAllProducts } from "../APIs/ProductsAPI";
-import moment from "moment";
+import { useAppContext } from "../shared/Context";
+import ProductCard from "../shared/ProductCard";
 
 const LatestProducts = () => {
   const navigate = useNavigate();
@@ -28,7 +27,7 @@ const LatestProducts = () => {
         padding: "36px 100px",
       }}
     >
-      <h3 style={{ color: "black", fontSize: "30px" }}>Latest Products</h3>
+      <h2 style={{ color: "black", fontSize: "30px" }}>Latest Products</h2>
       <div
         style={{
           display: "flex",
@@ -80,7 +79,9 @@ const LatestProducts = () => {
             cursor: "pointer",
           }}
         >
-          View All
+          <h2 style={{ color: "#ED0226", fontSize: "16px", fontWeight: 700 }}>
+            View All
+          </h2>
         </button>
       </div>
     </div>

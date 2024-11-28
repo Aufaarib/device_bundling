@@ -43,7 +43,7 @@ const Login = ({ setIsOpen }) => {
         paddingBottom: "65px",
       }}
     >
-      {register ? "" : <h1 style={{ color: "black" }}>LOGIN</h1>}
+      {register ? "" : <h1 style={{ color: "black" }}>Sign in</h1>}
 
       {!register ? (
         <>
@@ -115,14 +115,53 @@ const Login = ({ setIsOpen }) => {
               </div>
             </div>
           </div>
-          <div style={{ display: "flex", gap: "5px" }}>
-            <button onClick={() => onLogin()} style={{ color: "black" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "5px",
+              width: "100%",
+            }}
+          >
+            <button
+              onClick={() => onLogin()}
+              style={{ color: "white", backgroundColor: "#007DC1" }}
+            >
               {isLoading ? <CircularProgress color="black" /> : ""}
               Login
             </button>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                justifyContent: "center",
+              }}
+            >
+              <hr
+                style={{
+                  height: 0,
+                  width: "85px",
+                  border: "0.5px solid #C8C8C8",
+                }}
+              />
+              <p style={{ color: "#000000B2", fontSize: "14px" }}>OR</p>
+              <hr
+                style={{
+                  height: 0,
+                  width: "85px",
+                  border: "0.5px solid #C8C8C8",
+                }}
+              />
+            </div>
             <button
               onClick={() => setRegister(true)}
-              style={{ color: "black" }}
+              style={{
+                fontWeight: 600,
+                color: "#007DC1",
+                border: "1px solid #007DC1",
+                backgroundColor: "white",
+              }}
             >
               Register
             </button>

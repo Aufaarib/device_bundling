@@ -4,22 +4,7 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "./Context";
 import { getProfile } from "../APIs/AuthAPI";
 
-const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { isLoading, setIsLoading } = useAppContext();
-  const [data, setData] = useState("");
-  const token = localStorage.getItem("TOKEN");
-
-  // console.log(data);
-
-  useEffect(() => {
-    if (token) {
-      if (!data) {
-        getProfile(setData, setIsLoading);
-      }
-    }
-  }, [data]);
-
+const PaymentsHeader = () => {
   return (
     <div
       style={{
@@ -90,86 +75,8 @@ const Header = () => {
           fill="#243B7F"
         />
       </svg>
-
-      <div style={{ display: "flex", gap: "70px" }}>
-        {/* <a
-          href="/home"
-          style={{ color: "black", fontWeight: "bold", textDecoration: "none" }}
-        >
-          BERANDA
-        </a> */}
-        {/* <a
-          href="/home"
-          style={{ color: "black", fontWeight: "bold", textDecoration: "none" }}
-        >
-          CEK TRANSAKSI
-        </a> */}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "20px",
-        }}
-      >
-        <div
-          style={{
-            backgroundColor: "#F0F0F0",
-            borderRadius: "16px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "0px 10px",
-            //   width: "fit-content",
-            //   border: "none",
-          }}
-        >
-          <svg
-            width="24"
-            height="25"
-            viewBox="0 0 24 25"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21.7959 21.0031L17.3437 16.5491C18.6787 14.8095 19.3019 12.6273 19.087 10.4452C18.8722 8.26298 17.8353 6.24424 16.1867 4.79845C14.5382 3.35265 12.4014 2.58807 10.2098 2.65979C8.01829 2.73152 5.93607 3.63418 4.38558 5.18467C2.83509 6.73516 1.93243 8.81738 1.8607 11.0089C1.78898 13.2005 2.55356 15.3373 3.99936 16.9858C5.44515 18.6344 7.46389 19.6712 9.64606 19.8861C11.8282 20.101 14.0104 19.4777 15.75 18.1428L20.2059 22.5997C20.3106 22.7044 20.4348 22.7874 20.5715 22.844C20.7083 22.9006 20.8548 22.9298 21.0028 22.9298C21.1508 22.9298 21.2973 22.9006 21.4341 22.844C21.5708 22.7874 21.695 22.7044 21.7997 22.5997C21.9043 22.4951 21.9873 22.3708 22.044 22.2341C22.1006 22.0974 22.1298 21.9508 22.1298 21.8028C22.1298 21.6548 22.1006 21.5083 22.044 21.3716C21.9873 21.2348 21.9043 21.1106 21.7997 21.006L21.7959 21.0031ZM4.12499 11.2991C4.12499 10.0382 4.49888 8.80568 5.19938 7.75732C5.89987 6.70896 6.89551 5.89186 8.06039 5.40935C9.22527 4.92684 10.5071 4.80059 11.7437 5.04658C12.9803 5.29256 14.1162 5.89972 15.0078 6.79128C15.8994 7.68284 16.5065 8.81875 16.7525 10.0554C16.9985 11.292 16.8722 12.5738 16.3897 13.7387C15.9072 14.9036 15.0901 15.8992 14.0418 16.5997C12.9934 17.3002 11.7608 17.6741 10.5 17.6741C8.80977 17.6723 7.18927 17.0001 5.99411 15.805C4.79894 14.6098 4.12673 12.9893 4.12499 11.2991Z"
-              fill="black"
-              fill-opacity="0.4"
-            />
-          </svg>
-          <input
-            style={{
-              border: "none",
-              backgroundColor: "transparent",
-              color: "gray",
-              padding: "10px",
-              borderRadius: "12px",
-              width: "134px",
-              outline: "none",
-            }}
-            placeholder="Search for product.."
-          />
-        </div>
-        <button
-          onClick={() => setIsOpen(true)}
-          style={{
-            backgroundColor: "transparent",
-            border: "none",
-            cursor: "pointer",
-            display: "flex",
-            color: "black",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <p style={{ color: "gray" }}>{token ? data.full_name : "LOGIN"}</p>
-          <IconUserCircle size={30} color="gray" />
-        </button>
-      </div>
-      <Auth isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };
 
-export default Header;
+export default PaymentsHeader;

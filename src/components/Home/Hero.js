@@ -89,19 +89,21 @@ const Hero = () => {
           borderRadius: "0px 0px 0px 100px",
           height: "525px",
           maxWidth: "100%",
-          justifyContent: "space-between",
+          justifyContent: "space-around",
         }}
       >
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            width: "27%",
+            width: "33%",
             gap: "15px",
           }}
         >
-          <h1>Cari HP Sama Bundling Paket Kuota No Ribet!</h1>
-          <p style={{ fontWeight: "lighter", fontSize: "14px" }}>
+          <h1 style={{ fontWeight: 700, fontSize: "40px", color: "#FFFFFF" }}>
+            Cari HP Sama Bundling Paket Kuota No Ribet!
+          </h1>
+          <p style={{ fontWeight: 300, fontSize: "16px", color: "#FFFFFF" }}>
             Beli handphone langsung sama paketannya! Ga Perlu Ribet, Ga Khawatir
             Cicilan
           </p>
@@ -120,7 +122,9 @@ const Hero = () => {
               cursor: "pointer",
             }}
           >
-            Beli Sekarang
+            <h1 style={{ fontWeight: 700, fontSize: "18px", color: "#ED0226" }}>
+              Beli Sekarang
+            </h1>
           </button>
         </div>
         <div
@@ -131,17 +135,12 @@ const Hero = () => {
           }}
         >
           <img
-            style={{ marginTop: "90px", position: "absolute" }}
+            style={{ position: "absolute" }}
             src={cont}
             alt="err"
-            width="446px"
+            width="346px"
           />
-          <img
-            style={{ marginTop: "90px" }}
-            src={logo}
-            alt="err"
-            width="589px"
-          />
+          <img style={{}} src={logo} alt="err" width="529px" />
         </div>
       </div>
       <div

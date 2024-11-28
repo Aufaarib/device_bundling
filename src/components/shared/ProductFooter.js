@@ -1,6 +1,9 @@
 import { IconMessage, IconShare } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 
 const ProductFooter = () => {
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -46,11 +49,12 @@ const ProductFooter = () => {
           <p style={{ color: "#FF0025" }}>Share</p>
         </div>
       </div>
-      <div
+      <button
+        onClick={() => navigate("/payments/payment-method")}
         style={{
           display: "flex",
           flexDirection: "row",
-          border: "2px solid red",
+          border: "none",
           padding: "10px",
           width: "450px",
           justifyContent: "center",
@@ -60,8 +64,10 @@ const ProductFooter = () => {
           alignItems: "center",
         }}
       >
-        <p style={{ color: "white" }}>Buy Now</p>
-      </div>
+        <p style={{ color: "#FFFFFF", fontWeight: 400, fontSize: "16px" }}>
+          Buy Now
+        </p>
+      </button>
     </div>
   );
 };

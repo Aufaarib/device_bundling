@@ -8,7 +8,8 @@ const Home = () => {
   return (
     <>
       <Hero />
-      <Advertisement />
+      {/* <Advertisement /> */}
+      <LatestProducts />
       <LatestProducts />
       <PlatformOffering />
       <Footer />
