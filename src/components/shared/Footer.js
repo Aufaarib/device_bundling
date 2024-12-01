@@ -1,34 +1,25 @@
+import { IconCopyright } from "@tabler/icons-react";
 import bgfooter from "../../styles/assets/bgfooter.png";
+import moment from "moment";
 
 const Footer = () => {
   return (
-    <div
-      style={{
-        backgroundImage: `url(${bgfooter})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        display: "flex",
-        // height: "91px",
-        alignItems: "start",
-        justifyContent: "space-between",
-        // backgroundColor: "blue",
-        padding: "36px 100px",
-        // gap: "15px",
-      }}
-    >
+    <>
       <div
         style={{
+          // backgroundImage: `url(${bgfooter})`,
+          // backgroundSize: "cover",
+          // backgroundPosition: "center",
           display: "flex",
-          flexDirection: "column",
-          // alignItems: "center",
+          // height: "91px",
+          alignItems: "start",
           justifyContent: "center",
-          height: "100%",
-          gap: "15px",
-          width: "300px",
-          fontSize: "14px",
+          // backgroundColor: "blue",
+          padding: "36px",
+          // backgroundColor: "#F6F3F3",
+          // gap: "15px",
         }}
       >
-        {/* <br /> */}
         <svg
           width="160"
           height="55"
@@ -88,183 +79,29 @@ const Footer = () => {
             fill="#243B7F"
           />
         </svg>
-        {/* <p
-          style={{
-            paddingTop: "15px",
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          Jl. Raya Candi VI C Perumahan Grenland at tidar, Blok B12A,
-          Karangbesuki, Sukun, Malang
-        </p>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          +62 813-3686-5280
-        </p>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-           esim@grabpay.id
-        </p> */}
       </div>
       <div
         style={{
+          // backgroundImage: `url(${bgfooter})`,
+          // backgroundSize: "cover",
+          // backgroundPosition: "center",
           display: "flex",
-          flexDirection: "column",
-          fontSize: "14px",
-          // width: "20%",
           // height: "91px",
-          // justifyContent: "space-between",
+          alignItems: "center",
+          justifyContent: "center",
           // backgroundColor: "blue",
-          gap: "15px",
+          padding: "23px",
+          backgroundColor: "black",
+          // height: "68px",
+          gap: "3px",
+          color: "#ADB7BC",
+          textAlign: "center",
         }}
       >
-        <h1
-          style={{
-            color: "black",
-            fontWeight: 700,
-            fontSize: "14px",
-            paddingBottom: "36px",
-          }}
-        >
-          Tentang Kami
-        </h1>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          Gimana Cara Kerjanya?
-        </p>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          Unggulan
-        </p>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          Kemitraan
-        </p>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          Hubungan Bisnis
-        </p>
+        Design by MNC <IconCopyright color="#ADB7BC" size={18} />{" "}
+        {moment(new Date()).format("YYYY")}
       </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          fontSize: "14px",
-          // width: "20%",
-          // height: "91px",
-          // justifyContent: "space-between",
-          // backgroundColor: "blue",
-          gap: "15px",
-        }}
-      >
-        <h1
-          style={{
-            color: "black",
-            fontWeight: 700,
-            fontSize: "14px",
-            paddingBottom: "36px",
-          }}
-        >
-          Produk Kami
-        </h1>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          Umrah & Haji
-        </p>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          Pulsa & Data
-        </p>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          Voucher Game
-        </p>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          Tiket
-        </p>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          fontSize: "14px",
-          // width: "20%",
-          // height: "91px",
-          // justifyContent: "space-between",
-          // backgroundColor: "blue",
-          gap: "15px",
-        }}
-      >
-        <h1
-          style={{
-            color: "black",
-            fontWeight: 700,
-            fontSize: "14px",
-            paddingBottom: "36px",
-          }}
-        >
-          Sosial Media
-        </h1>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          Instagram
-        </p>
-        <p
-          style={{
-            color: "gray",
-            fontWeight: 300,
-          }}
-        >
-          Tiktok
-        </p>
-      </div>
-    </div>
+    </>
   );
 };
 

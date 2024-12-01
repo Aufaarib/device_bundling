@@ -35,7 +35,7 @@ const Auth = ({ isOpen = false, setIsOpen }) => {
           flexDirection: "column",
           overflow: "auto",
           minHeight: "400px",
-          paddingX: "80px",
+          // paddingX: "80px",
         }}
       >
         {token ? (
