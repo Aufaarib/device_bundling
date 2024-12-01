@@ -40,6 +40,7 @@ const LatestProducts = () => {
           <div key={index}>
             <ProductCard
               product_id={val.product_id}
+              brand={val.brand?.name}
               product_name={val?.name}
               product_color={val?.variants[0]?.detail[0]?.color}
               product_stock={val?.variants[0]?.detail[0]?.stock}

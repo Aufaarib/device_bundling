@@ -181,20 +181,21 @@ const Table = () => {
           <div key={index}>
             <ProductCard
               product_id={val.product_id}
-              product_name={val.name}
-              product_color={val.variants[0]?.detail[0].color}
-              product_stock={val.variants[0]?.detail[0].stock}
+              brand={val.brand?.name}
+              product_name={val?.name}
+              product_color={val?.variants[0]?.detail[0]?.color}
+              product_stock={val?.variants[0]?.detail[0]?.stock}
               normal_price={new Intl.NumberFormat("id-ID", {
                 style: "currency",
                 currency: "IDR",
                 minimumFractionDigits: 0,
-              }).format(val.variants[0]?.detail[0].price)}
+              }).format(val.variants[0]?.detail[0]?.price)}
               special_price={new Intl.NumberFormat("id-ID", {
                 style: "currency",
                 currency: "IDR",
                 minimumFractionDigits: 0,
-              }).format(val.variants[0]?.detail[0].special_price)}
-              discount={val.variants[0]?.detail[0].discount}
+              }).format(val.variants[0]?.detail[0]?.special_price)}
+              discount={val.variants[0]?.detail[0]?.discount}
             />
           </div>
         ))}

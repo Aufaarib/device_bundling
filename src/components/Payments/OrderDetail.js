@@ -4,6 +4,7 @@ import BreadCrumbsButton from "../shared/Buttons/BreadCrumbs";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import iphone from "../../styles/assets/iphone.png";
+import { useEffect, useState } from "react";
 
 const BundlingItems = ({ title, value }) => {
   return (
@@ -40,10 +41,32 @@ const BundlingItems = ({ title, value }) => {
 
 const OrderDetail = () => {
   const navigate = useNavigate();
+  const [pickedVariantsIndex, setVariantsPickedIndex] = useState({
+    id: 0,
+    prod_name: "",
+    brand: "",
+    color: "",
+    capacity: "",
+    stock: 0,
+    original_price: 0,
+    discount_price: 0,
+    discount: 0,
+    warranty: "",
+  });
+
+  console.log(pickedVariantsIndex);
+
+  useEffect(() => {
+    setVariantsPickedIndex(JSON.parse(localStorage.getItem("selectedProduct")));
+  }, []);
+
   const breadcrumbs = [
     <BreadCrumbsButton title={"Home"} href={"/"} />,
     <BreadCrumbsButton title={"Products"} href={"/products"} />,
-    <BreadCrumbsButton title={"ip"} href={"/products"} />,
+    <BreadCrumbsButton
+      title={pickedVariantsIndex.prod_name}
+      href={`/product-detail?id=${pickedVariantsIndex.id}`}
+    />,
     <BreadCrumbsButton
       title={"Metode Pembayaran"}
       href={"/payments/payment-method"}
@@ -77,12 +100,18 @@ const OrderDetail = () => {
         <p style={{ fontWeight: 400, fontSize: "18px", color: "#313131" }}>
           Cek lagi pesananmu yuk sebelum konfirmasi!
         </p>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "20px",
+          }}
+        >
           <div
             style={{
               display: "flex",
               border: "1px, solid lightgray",
-              width: "560px",
+              width: "50%",
               justifyContent: "start",
               alignItems: "center",
               padding: "70px 80px",
@@ -104,24 +133,33 @@ const OrderDetail = () => {
               }}
             >
               <p
-                style={{ color: "#000000", fontSize: "20px", fontWeight: 500 }}
+                style={{ color: "#000000", fontSize: "22px", fontWeight: 500 }}
               >
-                Iphone 15
+                {pickedVariantsIndex.brand}
+              </p>
+              <p
+                style={{ color: "#000000", fontSize: "18px", fontWeight: 400 }}
+              >
+                {pickedVariantsIndex.prod_name}
               </p>
               <p
                 style={{ color: "#313131", fontSize: "18px", fontWeight: 400 }}
               >
-                Rp20.999.000
+                {new Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                  minimumFractionDigits: 0,
+                }).format(pickedVariantsIndex?.discount_price)}
               </p>
               <p
                 style={{ color: "#313131", fontSize: "18px", fontWeight: 400 }}
               >
-                Hitam
+                {pickedVariantsIndex.color}
               </p>
               <p
                 style={{ color: "#313131", fontSize: "18px", fontWeight: 400 }}
               >
-                128 GB
+                {pickedVariantsIndex.capacity}
               </p>
             </div>
           </div>
@@ -131,7 +169,7 @@ const OrderDetail = () => {
               display: "flex",
               flexDirection: "column",
               border: "1px, solid lightgray",
-              width: "700px",
+              width: "50%",
               padding: "20px",
               gap: "15px",
               borderRadius: "20px",
@@ -159,6 +197,7 @@ const OrderDetail = () => {
             </div>
           </div>
         </div>
+
         <div
           style={{
             borderRadius: "20px",
@@ -265,7 +304,14 @@ const OrderDetail = () => {
           >
             Detail Pembayaran
           </p>
-          <BundlingItems title={"Total Pembayaran"} value={"Rp20.999.000"} />
+          <BundlingItems
+            title={"Total Pembayaran"}
+            value={new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+              minimumFractionDigits: 0,
+            }).format(pickedVariantsIndex?.discount_price)}
+          />
           <BundlingItems
             title={"Estimasi Pemotongan Harian"}
             value={"Rp239.990"}

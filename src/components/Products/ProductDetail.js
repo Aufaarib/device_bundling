@@ -18,6 +18,8 @@ const ProductDetail = () => {
   const [selectedModel, setSelectedModel] = useState("");
   const [pickedVariantsIndex, setVariantsPickedIndex] = useState({
     id: 0,
+    prod_name: "",
+    brand: "",
     color: "",
     capacity: "",
     stock: 0,
@@ -26,6 +28,13 @@ const ProductDetail = () => {
     discount: 0,
     warranty: "",
   });
+
+  useEffect(() => {
+    localStorage.setItem(
+      "selectedProduct",
+      JSON.stringify(pickedVariantsIndex)
+    );
+  }, [pickedVariantsIndex]);
 
   const Specs = ({ label, value }) => {
     return (
@@ -71,7 +80,9 @@ const ProductDetail = () => {
     if (data?.variants?.length > 0) {
       setSelectedModel(data?.variants[0]?.model);
       setVariantsPickedIndex({
-        id: 1,
+        id: data.product_id,
+        prod_name: data.name,
+        brand: data.brand?.name,
         capacity: data.variants[0]?.capacity || "",
         color: data.variants[0]?.detail[0]?.color || "",
         stock: data.variants[0]?.detail[0]?.stock || 0,
@@ -174,7 +185,7 @@ const ProductDetail = () => {
           <div
             style={{
               width: "100%",
-              maxHeight: "212px",
+              // maxHeight: "312px",
               display: "flex",
               backgroundColor: "#F6F3F3",
               padding: "25px 30px",
@@ -189,7 +200,7 @@ const ProductDetail = () => {
                 display: "flex",
                 flexDirection: "column",
                 gap: "10px",
-                // justifyContent: "space-between",
+                justifyContent: "space-between",
               }}
             >
               <div
@@ -300,13 +311,15 @@ const ProductDetail = () => {
                 Official {pickedVariantsIndex?.warranty} warranty
               </p>
             </div>
+
             <div
               style={{
                 width: "50%",
+                height: "200px",
                 color: "black",
                 backgroundColor: "white",
                 border: "1px solid lightgrey",
-                borderRadius: "12px 12px 42px",
+                borderRadius: "12px 4px 42px 12px",
                 display: "flex",
                 flexDirection: "column",
                 padding: "22px 28px",
@@ -350,6 +363,12 @@ const ProductDetail = () => {
                     color: "#66707A",
                     fontWeight: 400,
                     fontSize: "12px",
+                    // textOverflow: "ellipsis",
+                    overflow: "auto",
+                    // whiteSpace: "wrap",
+                    // display: "block",
+                    width: "500px",
+                    height: "100px",
                   }}
                 >
                   {data?.description}
@@ -368,7 +387,7 @@ const ProductDetail = () => {
             <h2 style={{ color: "#001A41", fontSize: "16px", fontWeight: 700 }}>
               Select Product Variation
             </h2>
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -436,7 +455,7 @@ const ProductDetail = () => {
                     </button>
                   ))}
               </div>
-            </div>
+            </div> */}
             <div
               style={{
                 display: "flex",
@@ -463,14 +482,16 @@ const ProductDetail = () => {
                       key={i}
                       onClick={() => {
                         setVariantsPickedIndex({
-                          id: i,
-                          color: val.color,
+                          id: data.product_id,
+                          prod_name: data.name,
+                          brand: data.brand?.name,
                           capacity: pickedVariantsIndex.capacity,
-                          stock: val.stock,
-                          original_price: val.price,
-                          discount_price: val.special_price,
-                          discount: val.discount,
-                          warranty: val.warranty,
+                          color: val.color || "",
+                          stock: val.stock || 0,
+                          original_price: val.price || 0,
+                          discount_price: val.special_price || 0,
+                          discount: val.discount || 0,
+                          warranty: val.warranty || "",
                         });
                       }}
                       disabled={pickedVariantsIndex?.color === val.color}
@@ -531,14 +552,18 @@ const ProductDetail = () => {
                       key={i}
                       onClick={() => {
                         setVariantsPickedIndex({
-                          id: i,
-                          color: pickedVariantsIndex.color,
-                          capacity: val.capacity,
-                          stock: pickedVariantsIndex.stock,
-                          original_price: pickedVariantsIndex.original_price,
-                          discount_price: pickedVariantsIndex.discount_price,
-                          discount: pickedVariantsIndex.discount,
-                          warranty: pickedVariantsIndex.warranty,
+                          id: data.product_id,
+                          prod_name: data.name,
+                          brand: data.brand?.name,
+                          capacity: val.capacity || "",
+                          color: pickedVariantsIndex.color || "",
+                          stock: pickedVariantsIndex.stock || 0,
+                          original_price:
+                            pickedVariantsIndex.original_price || 0,
+                          discount_price:
+                            pickedVariantsIndex.discount_price || 0,
+                          discount: pickedVariantsIndex.discount || 0,
+                          warranty: pickedVariantsIndex.warranty || "",
                         });
                       }}
                       disabled={pickedVariantsIndex?.capacity === val.capacity}
@@ -548,7 +573,7 @@ const ProductDetail = () => {
                           pickedVariantsIndex?.capacity === val.capacity
                             ? "lightgray"
                             : "#EDF5FC",
-                        width: "88px",
+                        width: "auto",
                         padding: "15px",
                         display: "flex",
                         alignItems: "center",
@@ -564,7 +589,7 @@ const ProductDetail = () => {
                           fontSize: "12px",
                         }}
                       >
-                        {val.capacity + " GB"}
+                        {val.capacity}
                       </p>
                     </button>
                   ))}

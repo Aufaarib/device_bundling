@@ -3,6 +3,7 @@ import iphone from "../../styles/assets/iphone.png";
 
 const ProductCard = ({
   product_id,
+  brand,
   product_name,
   product_color,
   product_stock,
@@ -51,11 +52,21 @@ const ProductCard = ({
           alignItems: "center",
           justifyContent: "space-between",
           gap: "10px",
-          padding: "30px 28px",
+          padding: "18px 20px",
           // minHeight: "200px",
           // backgroundColor: "green",
         }}
       >
+        <p
+          style={{
+            color: "black",
+            textAlign: "center",
+            textOverflow: "ellipsis",
+            // backgroundColor: "red",
+          }}
+        >
+          {brand}
+        </p>
         <p
           style={{
             color: "black",

@@ -7,13 +7,37 @@ import {
   IconCircleCheck,
   IconCircleCheckFilled,
 } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 
 const PaymentMethod = () => {
   const navigate = useNavigate();
+  const [pickedVariantsIndex, setVariantsPickedIndex] = useState({
+    id: 0,
+    prod_name: "",
+    brand: "",
+    color: "",
+    capacity: "",
+    stock: 0,
+    original_price: 0,
+    discount_price: 0,
+    discount: 0,
+    warranty: "",
+  });
+
+  console.log(pickedVariantsIndex);
+
+  useEffect(() => {
+    setVariantsPickedIndex(JSON.parse(localStorage.getItem("selectedProduct")));
+  }, []);
+
   const breadcrumbs = [
     <BreadCrumbsButton title={"Home"} href={"/"} />,
     <BreadCrumbsButton title={"Products"} href={"/products"} />,
-    <BreadCrumbsButton title={"ip"} href={"/products"} />,
+    <BreadCrumbsButton
+      title={pickedVariantsIndex.prod_name}
+      href={`/product-detail?id=${pickedVariantsIndex.id}`}
+    />,
+    ,
     <Typography fontSize="16px" key="3" color="#00000099" fontWeight={600}>
       Metode Pembayaran
     </Typography>,
