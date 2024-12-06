@@ -80,7 +80,7 @@ const Hero = () => {
       <div
         style={{
           display: "flex",
-          //   flexWrap: "wrap",
+          // flexWrap: "wrap",
           flexDirection: "row",
           alignItems: "center",
           padding: "30px 110px",

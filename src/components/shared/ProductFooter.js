@@ -1,8 +1,27 @@
 import { IconMessage, IconShare } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Login from "../Auth/Login";
+import Auth from "../Auth/Auth";
 
 const ProductFooter = () => {
   const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
+  const [IsOpenLogin, setIsOpenLogin] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("TOKEN")) {
+      setIsLogin(true);
+    }
+  }, []);
+
+  const onBuyNow = () => {
+    if (isLogin) {
+      navigate("/payments/payment-method");
+    } else {
+      setIsOpenLogin(true);
+    }
+  };
 
   return (
     <div
@@ -50,7 +69,8 @@ const ProductFooter = () => {
         </div>
       </div>
       <button
-        onClick={() => navigate("/payments/payment-method")}
+        onClick={() => onBuyNow()}
+        // disabled={!isLogin}
         style={{
           display: "flex",
           flexDirection: "row",
@@ -68,6 +88,8 @@ const ProductFooter = () => {
           Buy Now
         </p>
       </button>
+      <Auth isOpen={IsOpenLogin} setIsOpen={setIsOpenLogin} />
+      {/* <Login setIsOpen={IsOpenLogin} /> */}
     </div>
   );
 };

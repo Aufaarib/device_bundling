@@ -154,21 +154,51 @@ const Header = () => {
             placeholder="Search for product.."
           />
         </div>
-        <button
-          onClick={() => setIsOpen(true)}
-          style={{
-            backgroundColor: "transparent",
-            border: "none",
-            cursor: "pointer",
-            display: "flex",
-            color: "black",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <p style={{ color: "gray" }}>{token ? data.full_name : "LOGIN"}</p>
-          <IconUserCircle size={30} color="gray" />
-        </button>
+        {token ? (
+          <button
+            onClick={() => setIsOpen(true)}
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              color: "black",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <p style={{ color: "gray" }}>{token ? data.full_name : "LOGIN"}</p>
+            <IconUserCircle size={30} color="gray" />
+          </button>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <button
+              style={{
+                backgroundColor: "white",
+                border: "1px solid red",
+                color: "red",
+                borderRadius: "6px",
+                fontWeight: 600,
+                padding: "12px",
+              }}
+            >
+              Sign up
+            </button>
+            <button
+              onClick={() => setIsOpen(true)}
+              style={{
+                backgroundColor: "red",
+                // border: "1px solid red",
+                color: "white",
+                borderRadius: "6px",
+                fontWeight: 600,
+                padding: "12px",
+              }}
+            >
+              Sign in
+            </button>
+          </div>
+        )}
       </div>
       <Auth isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>

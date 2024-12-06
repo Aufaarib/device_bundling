@@ -149,36 +149,24 @@ const ProductDetail = () => {
           >
             <img
               style={{ margin: 0, top: 0 }}
-              src={iphone}
+              src={process.env.REACT_APP_STORAGE_KEY + data?.thumbnail}
               alt="err"
-              width="188px"
+              width="300px"
             />
           </div>
-          <div style={{ padding: "20px 30px", display: "flex", gap: "35px" }}>
-            <img
-              style={{ margin: 0, top: 0 }}
-              src={iphone}
-              alt="err"
-              width="90px"
-            />
-            <img
-              style={{ margin: 0, top: 0 }}
-              src={iphone}
-              alt="err"
-              width="90px"
-            />
-            <img
-              style={{ margin: 0, top: 0 }}
-              src={iphone}
-              alt="err"
-              width="90px"
-            />
-            <img
-              style={{ margin: 0, top: 0 }}
-              src={iphone}
-              alt="err"
-              width="90px"
-            />
+          <div style={{ padding: "20px 30px", display: "flex", gap: "10px" }}>
+            {data?.variants?.[0]?.detail?.map((val, index) =>
+              val?.media_galleries?.map((med, i = index) => (
+                <img
+                  key={i}
+                  style={{ margin: 0, top: 0 }}
+                  src={`${process.env.REACT_APP_STORAGE_KEY}${med?.file}`}
+                  alt="Thumbnail"
+                  width="120px"
+                  sizes={10}
+                />
+              ))
+            )}
           </div>
         </div>
         <div style={{ width: "60%", display: "flex", flexDirection: "column" }}>
@@ -327,20 +315,29 @@ const ProductDetail = () => {
               }}
             >
               {/* <SVG /> */}
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              >
                 <img
                   style={{ margin: 0, top: 0 }}
                   src={
                     process.env.REACT_APP_STORAGE_KEY + data?.brand?.brand_logo
                   }
                   alt="err"
-                  width="90px"
+                  width="60px"
                 />
-                <h2 style={{ color: "black", fontWeight: 500 }}>
+                <p
+                  style={{
+                    color: "black",
+                    fontWeight: 400,
+                    fontSize: "24px",
+                    // paddingBottom: "8px",
+                  }}
+                >
                   {data?.brand?.name}
-                </h2>
+                </p>
               </div>
-              <br />
+              {/* <br /> */}
               <hr
                 style={{
                   borderTop: "1px solid lightgrey",
@@ -589,7 +586,7 @@ const ProductDetail = () => {
                           fontSize: "12px",
                         }}
                       >
-                        {val.capacity}
+                        {val.capacity + " GB"}
                       </p>
                     </button>
                   ))}
@@ -622,156 +619,6 @@ const ProductDetail = () => {
               <Specs label={`Front Camera`} value={data?.front_camera} />
               <Specs label={`Processor`} value={data?.processor} />
               <Specs label={`Battery`} value={data?.battery} />
-              {/* <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "100%",
-                  borderBottom: "1px solid lightgray",
-                  paddingBottom: "20px",
-                }}
-              >
-                <p
-                  style={{
-                    width: "50%",
-                    color: "#4E5764",
-                    fontSize: "14px",
-                    fontWeight: 400,
-                  }}
-                >
-                  Screen
-                </p>
-                <p
-                  style={{
-                    width: "50%",
-                    color: "#4E5764",
-                    fontSize: "14px",
-                    fontWeight: 400,
-                  }}
-                >
-                  6.1"
-                </p>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "100%",
-                  borderBottom: "1px solid lightgray",
-                  paddingBottom: "20px",
-                }}
-              >
-                <p
-                  style={{
-                    width: "50%",
-                    color: "#4E5764",
-                    fontSize: "14px",
-                    fontWeight: 400,
-                  }}
-                >
-                  Rear Camera
-                </p>
-                <p
-                  style={{
-                    width: "50%",
-                    color: "#4E5764",
-                    fontSize: "14px",
-                    fontWeight: 400,
-                  }}
-                >
-                  48MP
-                </p>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "100%",
-                  borderBottom: "1px solid lightgray",
-                  paddingBottom: "20px",
-                }}
-              >
-                <p
-                  style={{
-                    width: "50%",
-                    color: "#4E5764",
-                    fontSize: "14px",
-                    fontWeight: 400,
-                  }}
-                >
-                  Front Camera
-                </p>
-                <p
-                  style={{
-                    width: "50%",
-                    color: "#4E5764",
-                    fontSize: "14px",
-                    fontWeight: 400,
-                  }}
-                >
-                  12MP
-                </p>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "100%",
-                  borderBottom: "1px solid lightgray",
-                  paddingBottom: "20px",
-                }}
-              >
-                <p
-                  style={{
-                    width: "50%",
-                    color: "#4E5764",
-                    fontSize: "14px",
-                    fontWeight: 400,
-                  }}
-                >
-                  Processor
-                </p>
-                <p
-                  style={{
-                    width: "50%",
-                    color: "#4E5764",
-                    fontSize: "14px",
-                    fontWeight: 400,
-                  }}
-                >
-                  16GB
-                </p>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "100%",
-                  borderBottom: "1px solid lightgray",
-                  paddingBottom: "20px",
-                }}
-              >
-                <p
-                  style={{
-                    width: "50%",
-                    color: "#4E5764",
-                    fontSize: "14px",
-                    fontWeight: 400,
-                  }}
-                >
-                  Battery
-                </p>
-                <p
-                  style={{
-                    width: "50%",
-                    color: "#4E5764",
-                    fontSize: "14px",
-                    fontWeight: 400,
-                  }}
-                >
-                  3349 MAh
-                </p>
-              </div> */}
             </div>
           </div>
           <div
@@ -908,7 +755,7 @@ const ProductDetail = () => {
                     justifyContent: "center",
                     padding: "10px",
                     borderRadius: "8px",
-                    //   width: "70px",
+                    width: "70px",
                     height: "45px",
                   }}
                 >
