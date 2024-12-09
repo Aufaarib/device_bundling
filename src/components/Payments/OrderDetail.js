@@ -121,7 +121,9 @@ const OrderDetail = () => {
           >
             <img
               style={{ margin: 0, top: 0 }}
-              src={iphone}
+              src={
+                process.env.REACT_APP_STORAGE_KEY + pickedVariantsIndex.prod_img
+              }
               alt="err"
               width="155px"
             />

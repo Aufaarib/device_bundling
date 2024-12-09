@@ -19,6 +19,7 @@ const ProductDetail = () => {
   const [pickedVariantsIndex, setVariantsPickedIndex] = useState({
     id: 0,
     prod_name: "",
+    prod_img: "",
     brand: "",
     color: "",
     capacity: "",
@@ -82,6 +83,7 @@ const ProductDetail = () => {
       setVariantsPickedIndex({
         id: data.product_id,
         prod_name: data.name,
+        prod_img: data.thumbnail,
         brand: data.brand?.name,
         capacity: data.variants[0]?.capacity || "",
         color: data.variants[0]?.detail[0]?.color || "",
@@ -149,7 +151,9 @@ const ProductDetail = () => {
           >
             <img
               style={{ margin: 0, top: 0 }}
-              src={process.env.REACT_APP_STORAGE_KEY + data?.thumbnail}
+              src={
+                process.env.REACT_APP_STORAGE_KEY + pickedVariantsIndex.prod_img
+              }
               alt="err"
               width="300px"
             />
@@ -481,6 +485,7 @@ const ProductDetail = () => {
                         setVariantsPickedIndex({
                           id: data.product_id,
                           prod_name: data.name,
+                          prod_img: val.media_galleries[0]?.file,
                           brand: data.brand?.name,
                           capacity: pickedVariantsIndex.capacity,
                           color: val.color || "",
@@ -509,9 +514,12 @@ const ProductDetail = () => {
                     >
                       <img
                         style={{ margin: 0, top: 0 }}
-                        src={iphone}
+                        src={
+                          process.env.REACT_APP_STORAGE_KEY +
+                          val.media_galleries[0]?.file
+                        }
                         alt="err"
-                        width="28px"
+                        width="62px"
                       />
                       <p
                         style={{
@@ -551,6 +559,7 @@ const ProductDetail = () => {
                         setVariantsPickedIndex({
                           id: data.product_id,
                           prod_name: data.name,
+                          prod_img: pickedVariantsIndex.prod_img,
                           brand: data.brand?.name,
                           capacity: val.capacity || "",
                           color: pickedVariantsIndex.color || "",
